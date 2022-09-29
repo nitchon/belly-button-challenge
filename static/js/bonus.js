@@ -3,14 +3,14 @@ const url = 'https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/
 // Demographic Info
 function panelInfo(id) {
     d3.json(url).then(function (data) {
-        sampleData = data
+        let sampleData = data;
         let metadata = sampleData.metadata;
         let identifier = metadata.filter(sample =>
             sample.id.toString() === id)[0];
         let panel = d3.select('#sample-metadata');
         panel.html('');
         Object.entries(identifier).forEach(([key, value]) => {
-            panel.append('h6').text(`${key}: ${value}`)
+            panel.append('h6').text(`${key}: ${value}`);
         })
         let gaugeTrace = {
             domain: { x: [0, 5], y: [0, 1] },
@@ -23,57 +23,19 @@ function panelInfo(id) {
                     tickmode: 'linear'
                 },
                 steps: [
-                    { range: [0, 1], color: 'rgb(248,243,236)',id:'0-1' },
-                    { range: [1, 2], color: 'rgb(244,241,228)', name:'1-2' },
-                    { range: [2, 3], color: 'rgb(233,230,201)', name:'2-3' },
-                    { range: [3, 4], color: 'rgb(229,232,176)', name:'3-4' },
-                    { range: [4, 5], color: 'rgb(213,229,153)', name:'4-5' },
-                    { range: [5, 6], color: 'rgb(183,205,143)', name:'5-6' },
-                    { range: [6, 7], color: 'rgb(138,192,134)', name:'6-7' },
-                    { range: [7, 8], color: 'rgb(137,188,141)', name:'7-8' },
-                    { range: [8, 9], color: 'rgb(132,181,137)', name:'8-9' },
+                    { range: [0, 1], color: 'rgb(248,243,236)', id: '0-1' },
+                    { range: [1, 2], color: 'rgb(244,241,228)', name: '1-2' },
+                    { range: [2, 3], color: 'rgb(233,230,201)', name: '2-3' },
+                    { range: [3, 4], color: 'rgb(229,232,176)', name: '3-4' },
+                    { range: [4, 5], color: 'rgb(213,229,153)', name: '4-5' },
+                    { range: [5, 6], color: 'rgb(183,205,143)', name: '5-6' },
+                    { range: [6, 7], color: 'rgb(138,192,134)', name: '6-7' },
+                    { range: [7, 8], color: 'rgb(137,188,141)', name: '7-8' },
+                    { range: [8, 9], color: 'rgb(132,181,137)', name: '8-9' },
                 ]
-                // steps: [
-                //     { range: [0, 1], name: '0-1' },
-                //     { range: [1, 2], name: '1-2' },
-                //     { range: [2, 3], name: '2-3' },
-                //     { range: [3, 4], name: '3-4' },
-                //     { range: [4, 5], name: '4-5' },
-                //     { range: [5, 6], name: '5-6' },
-                //     { range: [6, 7], name: '6-7' },
-                //     { range: [7, 8], name: '7-8' },
-                //     { range: [8, 9], name: '8-9' },
-                // ]
-            },
-            needle: {
-                radiusPercentage: 1,
-                widthPercentage: 1,
-                lengthPercentage: 60,
-                color: "rgba(0, 0, 0, 1)"
             },
             mode: "gauge"
         };
-        // let gaugeTrace = {
-        //     type: 'pie',
-        //     rotation: 90,
-        //     values: [50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50],
-        //     text: ['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9'],
-        //     textposition: 'inside',
-        //     showlegend: false,
-        //     direction: 'clockwise',
-        //     textinfo: "text",
-        //     marker: {
-        //         colors: ['rgb(248,243,236)', 'rgb(244,241,228)', 'rgb(233,230,201)',
-        //             'rgb(229,232,176)', 'rgb(213,229,153)', 'rgb(183,205,143)', 'rgb(138,192,134)',
-        //             'rgb(137,188,141)', 'rgb(132,181,137)', 'white'],
-        //         labels: ['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9', ""],
-    
-        //     },
-        //     hoverinfo: "skip"
-        // };
-    
-        let gaugeData = [gaugeTrace];
-        //Needle
         let deg = (180 / 9) * identifier.wfreq;
         let radius = 0.5;
         let radians = (deg * Math.PI) / 180;
@@ -96,16 +58,63 @@ function panelInfo(id) {
             yaxis: { visible: true, range: [-1, 1] },
             width: 800,
             height: 500
-    
-        }
-        Plotly.newPlot('gauge', gaugeData, guageLayout)
+
+        };
+        // Pie Chart
+        // let gaugeTrace = {
+        //     type: 'pie',
+        //     rotation: 90,
+        //     values: [50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50],
+        //     text: ['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9'],
+        //     hole: 0.5,
+        //     textposition: 'inside',
+        //     showlegend: false,
+        //     direction: 'clockwise',
+        //     textinfo: "text",
+        //     marker: {
+        //         colors: ['rgb(248,243,236)', 'rgb(244,241,228)', 'rgb(233,230,201)',
+        //             'rgb(229,232,176)', 'rgb(213,229,153)', 'rgb(183,205,143)', 'rgb(138,192,134)',
+        //             'rgb(137,188,141)', 'rgb(132,181,137)', 'white'],
+        //         labels: ['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9', ""],
+
+        //     },
+        //     hoverinfo: "skip"
+        // };
+        // //Needle
+        // let deg = (180 / 9) * identifier.wfreq;
+        // let radius = 0.5;
+        // let radians = (deg * Math.PI) / 180;
+        // let x = -1 * radius * Math.cos(radians);
+        // let y = radius * Math.sin(radians);
+
+        // let guageLayout = {
+        //     title: "<b>Belly Button Washing Frequency</b> <br>Scrubs Per Week</br>",
+        //     shapes: [{
+        //         type: 'line',
+        //         x0: 0.5,
+        //         y0: 0.5,
+        //         x1: x + 0.5,
+        //         y1: y + 0.5,
+        //         line: {
+        //             color: 'red',
+        //             width: 4
+        //         }
+        //     }],
+        //     xaxis: { visible: true, range: [-1, 1] },
+        //     yaxis: { visible: true, range: [-1, 1] },
+        //     width: 800,
+        //     height: 500
+
+        // };
+        let gaugeData = [gaugeTrace];
+        Plotly.newPlot('gauge', gaugeData, guageLayout);
     })
 }
 
 //Plots
 function Plots(id) {
     d3.json(url).then(function (data) {
-        sampleData = data;
+        let sampleData = data;
         let samples = sampleData.samples;
         let identifier = samples.filter(sample => sample.id === id);
         let filtered = identifier[0];
@@ -126,7 +135,7 @@ function Plots(id) {
         };
         let barData = [barTrace];
 
-        Plotly.newPlot('bar', barData, barLayout)
+        Plotly.newPlot('bar', barData, barLayout);
 
         let bubbleTrace = {
             x: filtered.otu_ids,
@@ -169,104 +178,6 @@ function init() {
         panelInfo(names[0]);
         Plots(names[0])
     })
-}
+};
 
-// Gauage
-// d3.json(url).then(function (data) {
-//     sampleData = data;
-//     let metadata = sampleData.metadata;
-//     let identifier = metadata.filter(sample =>
-//         sample.id.toString() == 940)[0];
-//     if (identifier.wfreq == null) {
-//         wfreq = 0;
-//     }
-//     let gaugeTrace = {
-//         domain: { x: [0, 5], y: [0, 1] },
-//         // value: identifier.wfreq,
-//         type: "indicator",
-//         ids: ['0-1', '1-2', '2-3', '3-4', '5-6', '6-7', '7-8', '8-9'],
-//         gauge: {
-//             axis: {
-//                 range: [0, 9],
-//                 tickmode: 'linear'
-//             },
-//             steps: [
-//                 { range: [0, 1], color: 'rgb(248,243,236)',id:'0-1' },
-//                 { range: [1, 2], color: 'rgb(244,241,228)', name:'1-2' },
-//                 { range: [2, 3], color: 'rgb(233,230,201)', name:'2-3' },
-//                 { range: [3, 4], color: 'rgb(229,232,176)', name:'3-4' },
-//                 { range: [4, 5], color: 'rgb(213,229,153)', name:'4-5' },
-//                 { range: [5, 6], color: 'rgb(183,205,143)', name:'5-6' },
-//                 { range: [6, 7], color: 'rgb(138,192,134)', name:'6-7' },
-//                 { range: [7, 8], color: 'rgb(137,188,141)', name:'7-8' },
-//                 { range: [8, 9], color: 'rgb(132,181,137)', name:'8-9' },
-//             ]
-//             // steps: [
-//             //     { range: [0, 1], name: '0-1' },
-//             //     { range: [1, 2], name: '1-2' },
-//             //     { range: [2, 3], name: '2-3' },
-//             //     { range: [3, 4], name: '3-4' },
-//             //     { range: [4, 5], name: '4-5' },
-//             //     { range: [5, 6], name: '5-6' },
-//             //     { range: [6, 7], name: '6-7' },
-//             //     { range: [7, 8], name: '7-8' },
-//             //     { range: [8, 9], name: '8-9' },
-//             // ]
-//         },
-//         needle: {
-//             radiusPercentage: 1,
-//             widthPercentage: 1,
-//             lengthPercentage: 60,
-//             color: "rgba(0, 0, 0, 1)"
-//         },
-//         mode: "gauge"
-//     };
-//     // let gaugeTrace = {
-//     //     type: 'pie',
-//     //     rotation: 90,
-//     //     values: [50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50],
-//     //     text: ['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9'],
-//     //     textposition: 'inside',
-//     //     showlegend: false,
-//     //     direction: 'clockwise',
-//     //     textinfo: "text",
-//     //     marker: {
-//     //         colors: ['rgb(248,243,236)', 'rgb(244,241,228)', 'rgb(233,230,201)',
-//     //             'rgb(229,232,176)', 'rgb(213,229,153)', 'rgb(183,205,143)', 'rgb(138,192,134)',
-//     //             'rgb(137,188,141)', 'rgb(132,181,137)', 'white'],
-//     //         labels: ['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9', ""],
-
-//     //     },
-//     //     hoverinfo: "skip"
-//     // };
-
-//     let gaugeData = [gaugeTrace];
-//     //Needle
-//     let deg = (180 / 9) * identifier.wfreq;
-//     let radius = 0.5;
-//     let radians = (deg * Math.PI) / 180;
-//     let x = -1 * radius * Math.cos(radians);
-//     let y = radius * Math.sin(radians);
-//     let guageLayout = {
-//         title: "<b>Belly Button Washing Frequency</b> <br>Scrubs Per Week</br>",
-//         shapes: [{
-//             type: 'line',
-//             x0: 0.5,
-//             y0: 0,
-//             x1: x + 0.5,
-//             y1: y + 0.5,
-//             line: {
-//                 color: 'red',
-//                 width: 4
-//             }
-//         }],
-//         xaxis: { visible: true, range: [-1, 1] },
-//         yaxis: { visible: true, range: [-1, 1] },
-//         width: 800,
-//         height: 500
-
-//     }
-//     Plotly.newPlot('gauge', gaugeData, guageLayout)
-// })
-
-init()
+init();

@@ -80,8 +80,6 @@ function init() {
         panelInfo(names[0]);
         Plots(names[0])
     })
-}
+};
 
-
-
-init()
+init();
